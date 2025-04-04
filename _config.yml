@@ -16,7 +16,7 @@ timezone:
 
 title: Fairoz Matte # the main title
 
-tagline: my personal blog # it will display as the subtitle
+tagline: I am a JVM Sustaining Engineer at Oracle. This is the blogging space to share my troubleshooting experiences with the Hotspot JVM. Views expressed here are solely my own. # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
   A minimal, responsive and feature-rich Jekyll theme for technical writing.
