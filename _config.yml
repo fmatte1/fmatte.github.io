@@ -1,3 +1,4 @@
+
 # The Site Configuration
 
 # Import the theme
@@ -23,7 +24,7 @@ description: >- # used by seo meta and the atom feed
 
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
-url: "https://fmatte.github.io"
+url: "https://fmatte1.github.io"
 
 github:
   username: fmatte1 # change to your GitHub username
@@ -224,3 +225,5 @@ jekyll-archives:
   permalinks:
     tag: /tags/:name/
     category: /categories/:name/
+
+    markdown: redcarpet
