@@ -3,7 +3,6 @@ title: "Why we should not ignore StackOverFlowErrors"
 date: 2025-03-26 00:00:00 +0800
 categories: 
 tags: 
-img:  Fairoz.jpg
 ---
 
 # What is StackOverflow Errors?
@@ -145,5 +144,14 @@ Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
 	at Example.recursive(Example.java:25)
 ```
 
+In large applications, having million/s lines of code, ignoring `StackOverflowError` even at single place, could result into severe issues. Debugging such issues are very very challenging.
 
-In large applications, having million lines of code, catching `StackOverflowError` even at single place, could result into severe issues. Debugging such issues are very very challenging.
+# How to identify hidden StackOverflowError's from hotspot logs files
+Whenever there is a crash, the Java Virtual Machine generates a hotspot error log file (`hs_error<%pid>.log`).
+hs_error files have lot of information, one of the information is the number of times, there were stackoverflow errors generated before the crash. This is one of the clue to identify that there are stack overflow.
+From the above program running with `-XX:+CrashOnOutOfMemoryError`, has gives below information about `StackOverflowError`
+
+```
+OutOfMemory and StackOverflow Exception counts:
+StackOverflowErrors=154
+```
