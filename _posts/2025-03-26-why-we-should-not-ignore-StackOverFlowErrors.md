@@ -8,7 +8,7 @@ tags:
 # What is StackOverflow Errors?
 
 
-Java Virtual Machine (JVM) allocates a small amount of memory for every thread to run its call stack. StackoverflowError can be seen, when it reaches the maximum limit of the call stack. This is a java runtime error usually happens due to excessive recursion, where method calls itself without proper terminating condition or the method may have deep call chain.
+Java Virtual Machine (JVM) allocates a small amount of memory for every thread to run its call stack. StackoverflowError can be seen, when it reaches the maximum limit of the call stack. This is a java runtime error that usually happens due to excessive recursion, where method calls itself without proper terminating condition or the method may have deep call chain.
 
 Take a simple example
 ```
@@ -74,9 +74,9 @@ It describes about the StackOverflowError
 StackOverflowError: The Java Virtual Machine implementation has run out of stack space for a thread, typically because the thread is doing an unbounded number of recursive invocations as a result of a fault in the executing program.
 ``
 
-# What can go wrong in catching StackOverFlowError?
+# What can go wrong in ignoring StackOverFlowError?
 
-Let us start with simple program, infact a buggy program and catching StackOverFlowError
+Let us start with simple program, infact a buggy program and ignoring/catching StackOverFlowError
 
 ```
 
@@ -127,7 +127,7 @@ catch(StackOverflowError err) {
 }
 ```
 
-In this case, all the allocations are happenning in the `list` which is global variable. Every recursive call will add `1k bytes` of data into the list `list.add(arr)`. As we ignored the `StackOverflowError` has resulted into the `OutOfMemoryError`. This is how the output looks like
+In this case, all the allocations are happenning in the `list` which is global variable. Every recursive call will add `1 k bytes` of data into the list `list.add(arr)`. As we ignored the `StackOverflowError` has resulted into the `OutOfMemoryError`. This is how the output looks like
 
 ```
 
