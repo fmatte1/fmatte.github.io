@@ -1,9 +1,11 @@
 ---
-title: "Why we should not ignore StackOverFlowErrors"
+title: "Why we should not catch and ignore StackOverFlowErrors"
 date: 2025-03-26 00:00:00 +0800
 categories: 
 tags: 
 ---
+
+![Background img](assets/img/StackOverflow_erolahmed.jpg)
 
 # What is StackOverflow Errors?
 
@@ -55,9 +57,9 @@ Exception in thread "main" java.lang.StackOverflowError
 at experimental.StackDemo.call(StackDemo.java:10)
 ```
 
-A StackOverflowError IS-A VirtualMachineError, which IS-AN Error. This indicates a serious problems that a reasonable application should not try to catch.
+A StackOverflowError IS-A VirtualMachineError, which IS-AN Error. This indicates a serious problem that a reasonable application should not try to catch.
 
-Language Specification and the <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.3">Java Virtual Machine Specification </a> provide information about the semantics of this exception. In particular, the latter says 
+The Language Specification and the <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.3">Java Virtual Machine Specification </a> provide information about the semantics of this exception. In particular, the latter says 
 
 ``
 A Java Virtual Machine implementation throws an object that is an instance of a subclass of the class
@@ -74,9 +76,9 @@ It describes about the StackOverflowError
 StackOverflowError: The Java Virtual Machine implementation has run out of stack space for a thread, typically because the thread is doing an unbounded number of recursive invocations as a result of a fault in the executing program.
 ``
 
-# What can go wrong in ignoring StackOverFlowError?
+# What can go wrong in catching and ignoring StackOverFlowError?
 
-Let us start with simple program, infact a buggy program and ignoring/catching StackOverFlowError
+Let us start with simple program, in fact a buggy program catches StackOverFlowError and ignores it.
 
 ```
 
@@ -100,25 +102,23 @@ public class Example {
 
 	}
 	
-	private int recursive() throws Error {
+	private void recursive() throws Error {
 		int arr[] = new int[1024];
 		if (flag) {
 			list.add(arr);
 			recursive();	
 		} else {
 			flag = false;
-			return 0;
 		}
 		if (list.contains(arr)) {
 			list.remove(arr);
 		}	
-		return 1;
 	}
 }
 ```
 
-If you have already noticed. The variable ``flag`` was never set to false causing recursive call never terminating.
-This will results into StackOverFlowError, but we do have catch block, ignoring the stack overflow error
+If you have already noticed, the variable ``flag`` was never set to false causing recursive call never terminating.
+This will result into `StackOverflowError`, but we do have a catch block, ignoring the `StackOverflowError`.
 
 ```
 
@@ -127,7 +127,8 @@ catch(StackOverflowError err) {
 }
 ```
 
-In this case, all the allocations are happenning in the `list` which is global variable. Every recursive call will add `1 k bytes` of data into the list `list.add(arr)`. As we ignored the `StackOverflowError` has resulted into the `OutOfMemoryError`. This is how the output looks like
+In this case, all the allocations are happenning in the `list` which is global variable. Every recursive call will add `1 k bytes` of data into the list `list.add(arr)`. As we have ignored the `StackOverflowError`, this has resulted into the `OutOfMemoryError`. 
+This is how the output looks like
 
 ```
 
@@ -144,12 +145,12 @@ Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
 	at Example.recursive(Example.java:25)
 ```
 
-In large applications, having million/s lines of code, ignoring `StackOverflowError` even at single place, could result into severe issues. Debugging such issues are very very challenging.
+In large applications, having million lines of code, ignoring `StackOverflowError` even at single place, could result in to severe issues. Debugging such issues are very very challenging.
 
-# How to identify hidden StackOverflowError's from hotspot logs files
+# How to identify StackOverflowError from hotspot logs files
 Whenever there is a crash, the Java Virtual Machine generates a hotspot error log file (`hs_error<%pid>.log`).
-hs_error files have lot of information, one of the information is the number of times, there were stackoverflow errors generated before the crash. This is one of the clue to identify that there are stack overflow.
-From the above program running with `-XX:+CrashOnOutOfMemoryError`, has gives below information about `StackOverflowError`
+hs_error files have a lot of information, such as the number of times, there were `StackOverflowError` generated before the crash. This is one of the clue to identify that there are `StackOverflowError`.
+From the above program running with `-XX:+CrashOnOutOfMemoryError`, we can find below information about `StackOverflowError` in hs_error file
 
 ```
 OutOfMemory and StackOverflow Exception counts:
