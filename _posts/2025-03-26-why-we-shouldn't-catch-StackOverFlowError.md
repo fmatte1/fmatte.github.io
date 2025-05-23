@@ -8,7 +8,7 @@ tags:
 ![Background img](assets/img/Leaves.png)
 
 
-Photo by <a href="https://unsplash.com/@erol?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Erol Ahmed</a> on <a href="https://unsplash.com/photos/red-plant-leaves-wKTF65TcReY?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
+Photo by <a href="https://unsplash.com/@erol?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Erol Ahmed</a>
       
 
 # What is StackOverFlowError?
@@ -62,7 +62,7 @@ at experimental.StackDemo.recursiveMethod(StackDemo.java:10)
 
 A `StackOverflowError` is a type of `VirtualMachineError`, which is an error. This indicates a serious problem that a reasonable application should not attempt to catch.
 
-Language Specification and the Java Virtual Machine Specification <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.3">Java Virtual Machine Specification </a> provide detailed information about the semantics of this error. Specifically the latter states: 
+Language Specification and the <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.3">Java Virtual Machine Specification </a> provide detailed information about the semantics of this error. Specifically the latter states: 
 
 ``
 A Java Virtual Machine implementation throws an object that is an instance of a subclass of the class
@@ -144,7 +144,7 @@ Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
 	at Example.recursive(Example.java:25)
 ```
 
-In large scale applications with millio of lines of code, ignoring `StackOverflowError` even in a single location, can have severe consequences. . Debugging such issues is very difficult and frustrating.
+In large scale applications with million lines of code, ignoring `StackOverflowError` even in a single location, can have severe consequences. Debugging such issues is very difficult and frustrating.
 
 # How to identify StackOverFlowError from HotSpot log files
 When a Java application crashes, the Java Virtual Machine (JVM) generates a HotSpot error log file named `hs_error<%pid>.log`. These log files contain valuable information, including the number of times that `StackOverflowError`s were encountered before the crash. This is one indication that a stack overflow had occurred. The above program when run with the JVM option `-XX:+CrashOnOutOfMemoryError`, produces the following information in the `hs_err` log file about the number of occurrences of `StackOverflowError`.
@@ -154,4 +154,8 @@ OutOfMemory and StackOverflow Exception counts:
 StackOverflowErrors=154
 ```
 
-This information is highly useful in determining whether the application had encountered any `StackOverflowError`s during its execution and, if so, whether an unexpected crash was caused by that.
+This information is highly useful in determining whether the application had encountered any `StackOverflowError` during its execution and, if so, whether an unexpected crash was caused by that.
+
+# Summary
+Having StackOverflowError, there’s likely not enough stack to do anything about it. One should not catch `StackOverflowError` in any situation. `StackOverflowError` indicates a serious problem that an application should not attempt to catch.
+In a few coming posts, I’ll further expand with more examples. Stay tuned.
