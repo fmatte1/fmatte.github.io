@@ -158,4 +158,5 @@ This information is highly useful in determining whether the application had enc
 
 # Summary
 Having StackOverflowError, there’s likely not enough stack to do anything about it. One should not catch `StackOverflowError` in any situation. `StackOverflowError` indicates a serious problem that an application should not attempt to catch.
+
 In a few coming posts, I’ll further expand with more examples. Stay tuned.
