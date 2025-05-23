@@ -147,12 +147,14 @@ Exception in thread "main" java.lang.OutOfMemoryError: Java heap space
 In large scale applications with million lines of code, ignoring `StackOverflowError` even in a single location, can have severe consequences. Debugging such issues is very difficult and frustrating.
 
 # How to identify StackOverFlowError from HotSpot log files
-When a Java application crashes, the Java Virtual Machine (JVM) generates a HotSpot error log file named `hs_error<%pid>.log`. These log files contain valuable information, including the number of times that `StackOverflowError`s were encountered before the crash. This is one indication that a stack overflow had occurred. The above program when run with the JVM option `-XX:+CrashOnOutOfMemoryError`, produces the following information in the `hs_err` log file about the number of occurrences of `StackOverflowError`.
+When a Java application crashes, the Java Virtual Machine (JVM) generates a HotSpot error log file named `hs_error<%pid>.log`. These log files contain valuable information, including the number of times that `StackOverflowError`s were encountered before the crash. This is one indication that a stack overflow had occurred. The above program when run with the JVM option `-XX:+CrashOnOutOfMemoryError`, produces the following information in the `hs_err` log file about the number of occurrences of `StackOverflowError`. 
 
 ```
 OutOfMemory and StackOverflow Exception counts:
 StackOverflowErrors=154
 ```
+
+The above information can also be fetched by running `jcmd VM.info` command
 
 This information is highly useful in determining whether the application had encountered any `StackOverflowError` during its execution and, if so, whether an unexpected crash was caused by that.
 
